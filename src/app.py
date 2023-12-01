@@ -42,25 +42,48 @@ def generate_report():
     print("Response:", report_type)
     return jsonify(response)
 
-@app.route('/update_table', methods=['POST'])
-def update_table():
-    data = request.json
-    table_name = data['tableName']
-    update_data = data['updateData']
- 
+@app.route('/get_servicios', methods=['GET'])
+def get_servicios():
     try:
         with pyodbc.connect(conn_str) as conn:
             with conn.cursor() as cursor:
-                # Use string formatting to construct the query with the table name
-                cursor.execute(f"SELECT * FROM {table_name}")
-                
-                # Assuming the query returns a single result set
-                details = cursor.fetchall()
-                response = {'details': [dict(zip([column[0] for column in cursor.description], row)) for row in details]}
+                cursor.execute("SELECT * FROM Servicios")
+                results = cursor.fetchall()
+                if results:
+                    data = [dict(zip([column[0] for column in cursor.description], row)) for row in results]
+                    return jsonify(data)
+                else:
+                    return jsonify({'message': 'No data found.'})
     except Exception as e:
-        response = {'error': str(e)} 
-      
-    return jsonify(response)
+        return jsonify({'error': str(e)})
+
+@app.route('/update_servicios', methods=['POST'])
+def update_servicios():
+    data = request.json
+    update_data = data['updateData']
+    rowData = data['rowData']
+
+    try:
+        with pyodbc.connect(conn_str) as conn:
+            with conn.cursor() as cursor:
+                if update_data == 'INSERT':
+                    query = "INSERT INTO Servicios (NombreServicio, Descripcion, Precio) VALUES (?, ?, ?)"
+                    cursor.execute(query, (rowData['nombreServicio'], rowData['descripcion'], rowData['precio']))
+                elif update_data == 'DELETE':
+                    query = "DELETE FROM Servicios WHERE ServicioID = ?"
+                    cursor.execute(query, (rowData['id'],))
+                elif update_data == 'UPDATE':
+                    query = "UPDATE Servicios SET NombreServicio = ?, Descripcion = ?, Precio = ? WHERE ServicioID = ?"
+                    cursor.execute(query, (rowData['nombreServicio'], rowData['descripcion'], rowData['precio'], rowData['id']))
+                else:
+                    return jsonify({'error': 'Invalid operation'})
+                
+                conn.commit()
+                return jsonify({'message': 'Operation successful'})
+
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
