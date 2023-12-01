@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS
+import './ReportFormStyles.css';  // Custom CSS for ReportForm
 
 const ReportForm = () => {
     const [reportType, setReportType] = useState('salesHistory');
@@ -82,38 +84,38 @@ const ReportForm = () => {
         ));
     };
 
-
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Report Type:
-                    <select value={reportType} onChange={e => setReportType(e.target.value)}>
+        <div style={{ backgroundColor: '#ffe4e1' }}>
+        <div className="container mt-3">
+            <form onSubmit={handleSubmit} className="mb-3">
+                <div className="form-group">
+                    <label>Report Type:</label>
+                    <select className="form-control" value={reportType} onChange={e => setReportType(e.target.value)}>
                         <option value="salesHistory">Historial de Ventas</option>
                         <option value="serviceHistory">Historial de Servicios por Cliente</option>
                     </select>
-                </label>
-            <br />
-                <label>
-                    Start Date:
-                    <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-                </label>
-            <br />
-                <label>
-                    End Date:
-                    <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-                </label>
-            <br />
-                <button type="submit">Generate Report</button>
+                </div>
+
+                <div className="form-group">
+                    <label>Start Date:</label>
+                    <input type="date" className="form-control" value={startDate} onChange={e => setStartDate(e.target.value)} />
+                </div>
+
+                <div className="form-group">
+                    <label>End Date:</label>
+                    <input type="date" className="form-control" value={endDate} onChange={e => setEndDate(e.target.value)} />
+                </div>
+
+                <button type="submit" className="btn btn-primary">Generate Report</button>
             </form>
 
             {isLoading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
+            {error && <div className="alert alert-danger">{error}</div>}
 
             {reportData && (
                 <div>
                     <h3>Report Data:</h3>
-                    <table>
+                    <table className="table table-bordered table-striped">
                         <thead>
                             {renderTableHeader()}
                         </thead>
@@ -124,10 +126,11 @@ const ReportForm = () => {
                 </div>
             )}
         </div>
+        </div>
     );
 };
 
-
 export default ReportForm;
+    
 
 

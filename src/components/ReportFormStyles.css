@@ -1,0 +1,20 @@
+/* ReportFormStyles.css */
+
+.container {
+    background-color: #f6ebeb; /* Light gray background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+    text-align: left;
+}
+
+.title {
+    text-align: center;
+    color: #343a40; /* Dark gray color */
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif; /* Choose a font that fits your design */
+    font-size: 24px; /* Adjust size as needed */
+    font-weight: bold;
+}
+
+/* Add more custom styles as needed */

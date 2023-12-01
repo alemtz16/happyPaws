@@ -46,7 +46,7 @@ const TableUpdateForm = () => {
     const renderTable = () => {
         if (!tableData) return null;
         return (
-            <table>
+            <table className="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>ServicioID</th>
@@ -66,51 +66,54 @@ const TableUpdateForm = () => {
                     ))}
                 </tbody>
             </table>
-        );
+    );
     };
 
     return (
-        <div>
-            <div>
-                <button onClick={fetchTableData}>Mostrar Tabla</button>
-                <button onClick={executeCommit}>Commit</button>
+        <div style={{ backgroundColor: '#ffe4e1' }}>
+        <div className="container mt-3">
+            <div className="d-flex justify-content-between mb-3">
+                <button className="btn btn-primary" onClick={fetchTableData}>Mostrar Tabla</button>
+                <button className="btn btn-success" onClick={executeCommit}>Commit</button>
             </div>
-            <div>
-                <label>
-                    Operation:
-                    <select value={updateData} onChange={e => setUpdateData(e.target.value)}>
+
+            <form>
+                <div className="form-group">
+                    <label>Operation:</label>
+                    <select className="form-control" value={updateData} onChange={e => setUpdateData(e.target.value)}>
                         <option value="INSERT">INSERT</option>
                         <option value="DELETE">DELETE</option>
                         <option value="UPDATE">UPDATE</option>
                     </select>
-                </label>
+                </div>
+
                 {updateData !== 'DELETE' && (
                     <div>
-                        <label>
-                            Nombre Servicio:
-                            <input type="text" value={nombreServicio} onChange={e => setNombreServicio(e.target.value)} />
-                        </label>
-                        <label>
-                            Descripcion:
-                            <input type="text" value={descripcion} onChange={e => setDescripcion(e.target.value)} />
-                        </label>
-                        <label>
-                            Precio:
-                            <input type="text" value={precio} onChange={e => setPrecio(e.target.value)} />
-                        </label>
+                        <div className="form-group">
+                            <label>Nombre Servicio:</label>
+                            <input type="text" className="form-control" value={nombreServicio} onChange={e => setNombreServicio(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>Descripcion:</label>
+                            <input type="text" className="form-control" value={descripcion} onChange={e => setDescripcion(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>Precio:</label>
+                            <input type="text" className="form-control" value={precio} onChange={e => setPrecio(e.target.value)} />
+                        </div>
                     </div>
                 )}
-                
-                
-                    <label>
-                        ID:
-                        <input type="text" value={id} onChange={e => setId(e.target.value)} />
-                    </label>
-                
-            </div>
-            <div>
+
+                <div className="form-group">
+                    <label>ID:</label>
+                    <input type="text" className="form-control" value={id} onChange={e => setId(e.target.value)} />
+                </div>
+            </form>
+
+            <div className="mt-3">
                 {renderTable()}
             </div>
+        </div>
         </div>
     );
 };
