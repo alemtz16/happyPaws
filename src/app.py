@@ -67,8 +67,8 @@ def update_servicios():
         with pyodbc.connect(conn_str) as conn:
             with conn.cursor() as cursor:
                 if update_data == 'INSERT':
-                    query = "INSERT INTO Servicios (NombreServicio, Descripcion, Precio) VALUES (?, ?, ?)"
-                    cursor.execute(query, (rowData['nombreServicio'], rowData['descripcion'], rowData['precio']))
+                    query = "INSERT INTO Servicios (ServicioID, NombreServicio, Descripcion, Precio) VALUES (?, ?, ?, ?)"
+                    cursor.execute(query, (rowData['id'], rowData['nombreServicio'], rowData['descripcion'], rowData['precio']))
                 elif update_data == 'DELETE':
                     query = "DELETE FROM Servicios WHERE ServicioID = ?"
                     cursor.execute(query, (rowData['id'],))
@@ -82,6 +82,8 @@ def update_servicios():
                 return jsonify({'message': 'Operation successful'})
 
     except Exception as e:
+        print("Error executing SQL:", e)
+        print("Data causing error:", data)
         return jsonify({'error': str(e)})
 
 

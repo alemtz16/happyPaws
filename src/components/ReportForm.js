@@ -28,7 +28,10 @@ const ReportForm = () => {
 
             const data = await response.json();
             console.log("Received data:", data);
-            setReportData(data.data);
+            if(reportType === 'salesHistory' )
+                setReportData(data.details);
+            else if (reportType === 'serviceHistory')
+                setReportData(data.data);
             console.log("Updated Report Data:", reportData);
         } catch (err) {
             setError(err.message);
@@ -36,6 +39,10 @@ const ReportForm = () => {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        console.log("Updated Report Data:", reportData);
+    }, [reportData]);
 
     const renderTableHeader = () => {
         if (reportType === 'salesHistory') {
