@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const TableUpdateForm = () => {
-    const [tableName, setTableName] = useState('');
     const [updateData, setUpdateData] = useState('');
     const [tableData, setTableData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +17,7 @@ const TableUpdateForm = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ tableName, updateData })
+                body: JSON.stringify({ tableName: "Servicios", updateData })
             });
 
             if (!response.ok) {
@@ -47,93 +46,24 @@ const TableUpdateForm = () => {
         ));
     };
 
+    // Simplified to only return headers for "Servicios" table
     const renderTableHeader = () => {
-        if (tableName === 'Clientes') {
-            return (
-                <tr>
-                    <th>Apellido</th>
-                    <th>ClienteID</th>
-                    <th>Domicilio</th>
-                    <th>Email</th>
-                    <th>Nombre</th>
-                    <th>Telefono</th>
-                    
-                </tr>
-            );
-        } else if (tableName === 'Empleados') {
-            // Adjust these headers based on the actual data structure of your service history report
-            return (
-                <tr>
-                    <th>Apellido</th>
-                    <th>EmpleadoID</th>
-                    <th>Nombre</th>
-                    <th>Telefono</th>
-                </tr>
-            );
-        } else if (tableName === 'Productos') {
-            // Adjust these headers based on the actual data structure of your service history report
-            return (
-                <tr>
-                    <th>Descripcion</th>
-                    <th>FechaVencimiento</th>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                    <th>ProductoID</th>
-                    <th>Stock</th>
-                    <th>TipoProducto</th>
-                </tr>
-            );
-        } else if (tableName === 'Servicios') {
-            // Adjust these headers based on the actual data structure of your service history report
-            return (
-                <tr>
-                    <th>Descripcion</th>
-                    <th>NombreServicio</th>
-                    <th>Precio</th>
-                    <th>ServicioID</th>
-                </tr>
-            );
-        } else if (tableName === 'Ventas') {
-            // Adjust these headers based on the actual data structure of your service history report
-            return (
-                <tr> 
-                    <th>Cantidad</th>
-                    <th>ClienteID</th>
-                    <th>EmpleadoID</th>
-                    <th>FechaVenta</th>
-                    <th>ProductoID</th>
-                    <th>ServicioID</th>
-                    <th>TotalVenta</th>
-                    <th>VentaID</th>
-                </tr>
-            );
-        }
-
+        return (
+            <tr>
+                <th>Descripcion</th>
+                <th>NombreServicio</th>
+                <th>Precio</th>
+                <th>ServicioID</th>
+            </tr>
+        );
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <label>
-                Table Name:
-                <select value={tableName} onChange={e => setTableName(e.target.value)}>
-                        <option value="Clientes">Clientes</option>
-                        <option value="Empleados">Empleados</option>
-                        <option value="Productos">Productos</option>
-                        <option value="Servicios">Servicios</option>
-                        <option value="Citas">Citas</option>
-                        <option value="Ventas">Ventas</option>
-                </select>
-            </label>
             <button type="submit">Mostrar Tabla</button>
-            {tableName && (
-                <div>
-                    <h3>Selected Table:</h3>
-                    <p>{tableName}</p>
-                </div>
-            )}
             {tableData && (
                 <div>
-                    <h3>Table Data:</h3>
+                    <h3>Table Data Servicios:</h3>
                     <table>
                         <thead>
                             {renderTableHeader()}
@@ -154,7 +84,6 @@ const TableUpdateForm = () => {
                 </select>
             </label>
             <br />
-
         </form>
     );
 };
